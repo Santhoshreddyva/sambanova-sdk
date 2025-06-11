@@ -5,8 +5,22 @@ A Python SDK for interacting with Sambanova's REST APIs, including chat, image, 
 ## Installation
 
 ```bash
-pip install .
+pip install sambanova-sdk .
 ```
+
+## About Sambanova
+
+Sambanova provides advanced AI infrastructure and models for generative AI, vision, audio, and language tasks. The Sambanova SDK enables seamless integration with Sambanova's REST APIs, allowing you to build, deploy, and scale AI-powered applications efficiently.
+
+With Sambanova, you can:
+
+- Access high-performance AI inference and training
+- Use state-of-the-art models for chat, vision, audio, and more
+- Scale your AI workloads with robust cloud and on-premise solutions
+
+## Documentation
+
+The REST API documentation can be found on the [Sambanova documentation portal](https://docs.sambanova.ai). The full API of this library can be found in `api.md`.
 
 ## Usage
 
@@ -122,4 +136,118 @@ response = Transcription.transcribe_audio_file(
     model="Whisper-Large-v3",
     audio_file_path=audio_file_path,
     language="english",
-    response_format="text
+    response_format="text"
+)
+print(response)
+```
+
+## API Key
+
+Get an API Key from your Sambanova account and add it to your environment variables:
+
+```bash
+export SN_API_KEY="your-api-key-here"
+```
+
+You can also use [python-dotenv](https://pypi.org/project/python-dotenv/) to add `SN_API_KEY="your-api-key-here"` to your `.env` file.
+
+## Advanced Usage
+
+### Streaming Responses
+
+The SDK supports streaming responses for chat and other endpoints. When streaming, usage and timing information will only be included in the final chunk.
+
+```python
+stream = ChatCompletion.create(
+    client,
+    messages=messages,
+    model="Llama-4-Maverick-17B-128E-Instruct",
+    stream=True,
+)
+for chunk in stream:
+    print(chunk.get("choices", [{}])[0].get("delta", {}).get("content", ""), end="")
+```
+
+### Error Handling
+
+When the SDK is unable to connect to the API (e.g., network issues or timeouts), a `SambanovaAPIConnectionError` is raised.
+
+When the API returns a non-success status code (4xx or 5xx), a `SambanovaAPIStatusError` is raised, containing `status_code` and `response` properties.
+
+All errors inherit from `SambanovaAPIError`.
+
+```python
+from src.sambanova.api_client import SambanovaAPIClient, SambanovaAPIError
+
+client = SambanovaAPIClient("your_api_key")
+try:
+    # ...your API call...
+    pass
+except SambanovaAPIError as e:
+    print("An error occurred:", e)
+```
+
+Common error codes:
+
+| Status Code | Error Type                  |
+|-------------|----------------------------|
+| 400         | BadRequestError             |
+| 401         | AuthenticationError         |
+| 403         | PermissionDeniedError       |
+| 404         | NotFoundError               |
+| 422         | UnprocessableEntityError    |
+| 429         | RateLimitError              |
+| >=500       | InternalServerError         |
+| N/A         | SambanovaAPIConnectionError |
+
+### Retries and Timeouts
+
+The SDK automatically retries certain errors (connection errors, timeouts, 429, >=500) up to 2 times by default, with exponential backoff. You can configure retries and timeouts globally or per request.
+
+```python
+client = SambanovaAPIClient("your_api_key", max_retries=3, timeout=30.0)
+```
+
+### Logging
+
+Enable logging by setting the environment variable:
+
+```bash
+export SAMBANOVA_LOG=info
+```
+
+Or use `debug` for more verbose output.
+
+### Custom Requests
+
+You can make custom requests to undocumented endpoints using the `request` method:
+
+```python
+response = client.request("POST", "/custom-endpoint", json={"param": "value"})
+print(response)
+```
+
+### Managing Resources
+
+The SDK manages HTTP connections automatically. You can manually close the client if needed:
+
+```python
+client.close()
+```
+
+Or use a context manager:
+
+```python
+with SambanovaAPIClient("your_api_key") as client:
+    # make requests
+    pass
+# client is now closed
+```
+
+## Requirements
+
+- Python 3.8 or higher
+
+## Contributing
+
+Contributions are welcome! Please read our [contributing guide](CONTRIBUTING.md) for more information on how to get started.
