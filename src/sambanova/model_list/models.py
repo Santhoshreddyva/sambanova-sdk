@@ -12,7 +12,10 @@ def get_available_models(client: SambanovaAPIClient):
     )
     if response.status_code != 200:
         raise RuntimeError(f"Failed to fetch models: {response.status_code} {response.text}")
-    return response.json().get("data", [])
+    data = response.json().get("data", [])
+    if data is None:
+        data = []
+    return data
 
 def get_model_details(client: SambanovaAPIClient, model_id: str):
     """
