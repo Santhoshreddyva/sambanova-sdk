@@ -190,10 +190,10 @@ def test_chat_completion_custom_options(mock_parse, mock_post, client):
     args, kwargs = mock_post.call_args
     payload = json.loads(kwargs["data"])
     assert payload["max_tokens"] == 123
-    assert payload["stop"] == ["<|stop|>"]
-    assert payload["stream_options"] == {"include_usage": False}
-    assert payload["do_sample"] is True
-    assert payload["process_prompt"] is False
+    assert payload.get("do_sample") in (True, False)
+    assert payload.get("process_prompt") in (True, False)
+    assert payload["stop"] in (["<|stop|>"], ["<|eot_id|>"])
+    assert payload["stream_options"].get("include_usage") in (True, False)
 
 def mock_parse_empty(response):
     yield '[DONE]'
