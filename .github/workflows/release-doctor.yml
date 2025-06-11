@@ -10,7 +10,7 @@ jobs:
     name: release doctor
     runs-on: ubuntu-latest
     environment: publish
-    if: github.repository == 'santhoshreddy-ss/sambanova-sdk' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.head_ref == 'next')
+    if: github.repository == 'Santhoshreddyva/sambanova-sdk' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.head_ref == 'next')
 
     steps:
       - uses: actions/checkout@v4
