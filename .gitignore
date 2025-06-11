@@ -1,0 +1,7 @@
+__pycache__/
+build
+.vscode/
+.pytest_cache/
+py_sdk.egg-info/
+.DS_Store
+.coverage

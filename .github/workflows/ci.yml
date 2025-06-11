@@ -1,0 +1,92 @@
+name: CI
+on:
+  push:
+    branches-ignore:
+      - 'generated'
+      - 'codegen/**'
+      - 'integrated/**'
+      - 'stl-preview-head/**'
+      - 'stl-preview-base/**'
+
+jobs:
+  lint:
+    timeout-minutes: 10
+    name: lint
+    runs-on: ${{ github.repository == 'stainless-sdks/openai-python' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        env:
+          RYE_VERSION: '0.44.0'
+          RYE_INSTALL_OPTION: '--yes'
+
+      - name: Install dependencies
+        run: rye sync --all-features
+
+      - name: Run lints
+        run: ./scripts/lint
+
+  upload:
+    if: github.repository == 'stainless-sdks/openai-python'
+    timeout-minutes: 10
+    name: upload
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: depot-ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4 
+
+  test:
+    timeout-minutes: 10
+    name: test
+    runs-on: ${{ github.repository == 'santhoshreddy-ss/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        env:
+          RYE_VERSION: '0.44.0'
+          RYE_INSTALL_OPTION: '--yes'
+
+      - name: Bootstrap
+        run: ./scripts/bootstrap
+
+      - name: Run tests
+        run: ./scripts/test
+
+  examples:
+    timeout-minutes: 10
+    name: examples
+    runs-on: ${{ github.repository == 'santhoshreddy-ss/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    if: github.repository == 'santhoshreddy-ss/sambanova-sdk'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye.astral.sh/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+        env:
+          RYE_VERSION: '0.44.0'
+          RYE_INSTALL_OPTION: '--yes'
+      - name: Install dependencies
+        run: |
+          rye sync --all-features
+
+      - env: 
+          SN_API_KEY: ${{ secrets.SN_API_KEY }}
+        run: |
+            rye run python examples/chat.py
+      - env: 
+          SN_API_KEY: ${{ secrets.SN_API_KEY }}
+        run: |
+            rye run python examples/audio.py
