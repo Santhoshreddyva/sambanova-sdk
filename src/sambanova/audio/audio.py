@@ -21,8 +21,11 @@ class Audio:
             json=payload
         )
 
-        # Check if the response contains JSON data
-        if response.headers.get("Content-Type", "").startswith("application/json"):
+        #Content-Type check (case-insensitive, handles charset, handles None)
+        content_type = ""
+        if response.headers:
+            content_type = response.headers.get("Content-Type", "")
+        if content_type.lower().startswith("application/json"):
             return response.json()
         else:
             print("Warning: Response is not JSON. Raw response:", response.text)
