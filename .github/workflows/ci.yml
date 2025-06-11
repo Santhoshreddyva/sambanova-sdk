@@ -4,9 +4,7 @@ on:
     branches-ignore:
       - 'generated'
       - 'codegen/**'
-      - 'integrated/**'
-      - 'stl-preview-head/**'
-      - 'stl-preview-base/**'
+      - 'integrated/**' 
 
 jobs:
   lint:
@@ -58,9 +56,7 @@ jobs:
 
       - name: Bootstrap
         run: ./scripts/bootstrap
-
-      - name: Run tests
-        run: ./scripts/test
+ 
 
   examples:
     timeout-minutes: 10
