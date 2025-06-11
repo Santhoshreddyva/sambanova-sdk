@@ -9,7 +9,7 @@ on:
 jobs:
   release:
     name: release
-    if: github.ref == 'refs/heads/main' && github.repository == 'santhoshreddy-ss/sambanova-sdk' 
+    if: github.ref == 'refs/heads/main' && github.repository == 'Santhoshreddyva/sambanova-sdk'
     runs-on: ubuntu-latest
     environment: publish
 
