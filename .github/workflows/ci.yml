@@ -10,7 +10,7 @@ jobs:
   lint:
     timeout-minutes: 10
     name: lint
-    runs-on: ${{ github.repository == 'stainless-sdks/openai-python' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ${{ github.repository == 'Santhoshreddyva/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +29,7 @@ jobs:
         run: ./scripts/lint
 
   upload:
-    if: github.repository == 'stainless-sdks/openai-python'
+    if: github.repository == 'Santhoshreddyva/sambanova-sdk'
     timeout-minutes: 10
     name: upload
     permissions:
@@ -42,7 +42,7 @@ jobs:
   test:
     timeout-minutes: 10
     name: test
-    runs-on: ${{ github.repository == 'santhoshreddy-ss/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ${{ github.repository == 'Santhoshreddyva/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -61,8 +61,8 @@ jobs:
   examples:
     timeout-minutes: 10
     name: examples
-    runs-on: ${{ github.repository == 'santhoshreddy-ss/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
-    if: github.repository == 'santhoshreddy-ss/sambanova-sdk'
+    runs-on: ${{ github.repository == 'Santhoshreddyva/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    if: github.repository == 'Santhoshreddyva/sambanova-sdk'
 
     steps:
       - uses: actions/checkout@v4
