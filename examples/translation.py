@@ -30,7 +30,7 @@ def main() -> None:
         stream=False
     )
     transcript = text_response if isinstance(text_response, str) else text_response.get("text", "")
-    print("Translated Text\n",transcript)
+    print("Translated Audio in text\n",transcript)
 
 if __name__ == "__main__":
     main()

@@ -21,7 +21,10 @@ class Translation:
             data=data,
         )
         files["file"].close()
-        if response.headers.get("Content-Type", "").startswith("application/json"):
+        content_type = ""
+        if response.headers:
+            content_type = response.headers.get("Content-Type", "")
+        if content_type.lower().startswith("application/json"):
             return response.json()
         else:
             return response.text

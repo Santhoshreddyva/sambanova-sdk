@@ -20,9 +20,10 @@ class Transcription:
             headers=client.headers(),
             json=payload
         )
-
-        # Check if the response contains JSON data
-        if response.headers.get("Content-Type", "").startswith("application/json"):
+        content_type = ""
+        if response.headers:
+            content_type = response.headers.get("Content-Type", "")
+        if content_type.lower().startswith("application/json"):
             return response.json()
         else:
             print("Warning: Response is not JSON. Raw response:", response.text)
@@ -50,7 +51,10 @@ class Transcription:
             data=data,
         )
         files["file"].close()
-        if response.headers.get("Content-Type", "").startswith("application/json"):
+        content_type = ""
+        if response.headers:
+            content_type = response.headers.get("Content-Type", "")
+        if content_type.lower().startswith("application/json"):
             return response.json()
         else:
             print("Warning: Response is not JSON. plain text response")
