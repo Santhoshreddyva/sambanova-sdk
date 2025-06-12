@@ -1,5 +1,7 @@
 import os
-from src.sambanova.chat import SambanovaAPIClient, ChatCompletion
+
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.chat.chat_completion import ChatCompletion 
 
 api_key = os.getenv("SN_API_KEY")
 if not api_key:

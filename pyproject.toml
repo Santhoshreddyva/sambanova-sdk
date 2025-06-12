@@ -1,21 +1,21 @@
 [project]
-name = "sambanova"
-version = "0.1.0"
-description = "A Python SDK for the Sambanova cloud API"
+name = "sambanova-pysdk"
+version = "1.0.0"
+description = "A Python SDK for the SambaNova cloud API"
 readme = "README.md"
+license = "MIT"
 authors = [
-  { name = "SA", email = "santhoshreddy.vantikommu@Sambanovasystems.com" }
+  { name = "Santhosh Reddy", email = "santhoshreddyva@gmail.com" }
 ]
-license = { text = "MIT" }
 dependencies = [
-  "requests >=2.31.0",
+  "requests >=2.31.0"
 ]
 
 [project.urls]
-Homepage = "https://github.com/"
+Homepage = "https://github.com/Santhoshreddyva/sambanova-sdk"
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
