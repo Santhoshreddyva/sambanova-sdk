@@ -22,7 +22,7 @@ With Sambanova, you can:
 
 The REST API documentation can be found on the [Sambanova documentation portal](https://docs.sambanova.ai). The full API of this library can be found in `api.md`.
 
-## Usage
+## Usage Examples
 
 ### Chat Completion
 
