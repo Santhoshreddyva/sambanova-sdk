@@ -3,7 +3,6 @@ name = "sambanova-pysdk"
 version = "1.0.1"
 description = "A Python SDK for the SambaNova cloud API"
 readme = "README.md"
-license = "MIT"
 authors = [
   { name = "Santhoshreddyva", email = "santhoshreddyva@gmail.com" }
 ]
