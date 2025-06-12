@@ -2,8 +2,8 @@ from pathlib import Path
 import os
 import base64
 import json
-from src.sambanova.api_client import SambanovaAPIClient
-from src.sambanova.image import Image 
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.image import Image 
 
 def main() -> None:
     api_key = os.getenv("SN_API_KEY")

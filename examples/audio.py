@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
 import base64
-from src.sambanova.api_client import SambanovaAPIClient
-from src.sambanova.audio import Audio
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.audio import Audio
 
 def main() -> None:
     api_key = os.getenv("SN_API_KEY")

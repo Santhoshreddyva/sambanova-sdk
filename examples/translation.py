@@ -1,7 +1,7 @@
 import sys
 import os
-from src.sambanova.api_client import SambanovaAPIClient
-from src.sambanova.translation import Translation
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.translation import Translation
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 

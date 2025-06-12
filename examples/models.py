@@ -1,6 +1,6 @@
 import os
-from src.sambanova.api_client import SambanovaAPIClient
-from src.sambanova.model_list.models import get_available_models
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.model_list.models import get_available_models
 
 def main():
     api_key = os.getenv("SN_API_KEY")

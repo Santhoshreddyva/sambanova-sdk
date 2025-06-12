@@ -1,6 +1,6 @@
 import os
-from src.sambanova.api_client import SambanovaAPIClient
-from src.sambanova.embeddings import Embeddings
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.embeddings import Embeddings
 
 api_key = os.getenv("SN_API_KEY")
 if not api_key:

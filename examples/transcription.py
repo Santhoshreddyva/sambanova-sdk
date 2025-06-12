@@ -1,7 +1,7 @@
 from pathlib import Path
 import os 
-from src.sambanova.api_client import SambanovaAPIClient
-from src.sambanova.transcription import Transcription
+from sambanova.api_client import SambanovaAPIClient
+from sambanova.transcription import Transcription
 
 def main() -> None:
     api_key = os.getenv("SN_API_KEY")
