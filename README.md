@@ -151,6 +151,13 @@ export SN_API_KEY="your-api-key-here"
 
 You can also use [python-dotenv](https://pypi.org/project/python-dotenv/) to add `SN_API_KEY="your-api-key-here"` to your `.env` file.
 
+or for generating a reponse in the terminal: 
+
+```bash
+export SN_API_KEY=your-api-key-here 
+PYTHONPATH=. python3 "your file relative path"
+```
+
 ## Advanced Usage
 
 ### Streaming Responses
