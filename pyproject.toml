@@ -1,5 +1,5 @@
 [project]
-name = "sambanova-sdk"
+name = "sambanova"
 version = "0.1.0"
 description = "A Python SDK for the Sambanova cloud API"
 readme = "README.md"
