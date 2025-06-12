@@ -5,7 +5,7 @@ description = "A Python SDK for the SambaNova cloud API"
 readme = "README.md"
 license = "MIT"
 authors = [
-  { name = "Santhosh Reddy", email = "santhoshreddyva@gmail.com" }
+  { name = "Santhoshreddyva", email = "santhoshreddyva@gmail.com" }
 ]
 dependencies = [
   "requests >=2.31.0"
