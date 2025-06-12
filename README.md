@@ -5,7 +5,7 @@ A Python SDK for interacting with Sambanova's REST APIs, including chat, image, 
 ## Installation
 
 ```bash
-pip install sambanova-sdk .
+pip install sambanova-sdk 
 ```
 
 ## About Sambanova
