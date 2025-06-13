@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches-ignore:
@@ -9,8 +10,8 @@ on:
 jobs:
   lint:
     timeout-minutes: 10
-    name: lint
-    runs-on: ${{ github.repository == 'Santhoshreddyva/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
+    if: github.repository == 'Santhoshreddyva/sambanova-sdk'
     steps:
       - uses: actions/checkout@v4
 
@@ -18,9 +19,6 @@ jobs:
         run: |
           curl -sSf https://rye.astral.sh/get | bash
           echo "$HOME/.rye/shims" >> $GITHUB_PATH
-        env:
-          RYE_VERSION: '0.44.0'
-          RYE_INSTALL_OPTION: '--yes'
 
       - name: Install dependencies
         run: rye sync --all-features
@@ -29,20 +27,34 @@ jobs:
         run: ./scripts/lint
 
   upload:
-    if: github.repository == 'Santhoshreddyva/sambanova-sdk'
     timeout-minutes: 10
-    name: upload
-    permissions:
-      contents: read
-      id-token: write
-    runs-on: depot-ubuntu-24.04
+    runs-on: ubuntu-latest
+    if: github.repository == 'Santhoshreddyva/sambanova-sdk'
     steps:
-      - uses: actions/checkout@v4 
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Twine & Build Tools
+        run: |
+          pip install --upgrade build twine
+
+      - name: Build SDK
+        run: python -m build
+
+      - name: Upload to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: twine upload dist/*
 
   test:
     timeout-minutes: 10
-    name: test
-    runs-on: ${{ github.repository == 'Santhoshreddyva/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
+    if: github.repository == 'Santhoshreddyva/sambanova-sdk'
     steps:
       - uses: actions/checkout@v4
 
@@ -50,20 +62,14 @@ jobs:
         run: |
           curl -sSf https://rye.astral.sh/get | bash
           echo "$HOME/.rye/shims" >> $GITHUB_PATH
-        env:
-          RYE_VERSION: '0.44.0'
-          RYE_INSTALL_OPTION: '--yes'
 
       - name: Bootstrap
         run: ./scripts/bootstrap
- 
 
   examples:
     timeout-minutes: 10
-    name: examples
-    runs-on: ${{ github.repository == 'Santhoshreddyva/sambanova-sdk' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     if: github.repository == 'Santhoshreddyva/sambanova-sdk'
-
     steps:
       - uses: actions/checkout@v4
 
@@ -71,18 +77,13 @@ jobs:
         run: |
           curl -sSf https://rye.astral.sh/get | bash
           echo "$HOME/.rye/shims" >> $GITHUB_PATH
-        env:
-          RYE_VERSION: '0.44.0'
-          RYE_INSTALL_OPTION: '--yes'
-      - name: Install dependencies
-        run: |
-          rye sync --all-features
 
-      - env: 
+      - name: Install dependencies
+        run: rye sync --all-features
+
+      - name: Run examples
+        env: 
           SN_API_KEY: ${{ secrets.SN_API_KEY }}
         run: |
-            rye run python examples/chat.py
-      - env: 
-          SN_API_KEY: ${{ secrets.SN_API_KEY }}
-        run: |
-            rye run python examples/audio.py
+          rye run python examples/chat.py
+          rye run python examples/audio.py
